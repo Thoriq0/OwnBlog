@@ -1,0 +1,156 @@
+/* -----------------------------------
+  Tailwind & Flowbite Base Import
+----------------------------------- */
+@import "tailwindcss";
+@import "flowbite/src/themes/default";
+
+/* -----------------------------------
+  Tailwind Source Paths
+----------------------------------- */
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+/* -----------------------------------
+  Custom Theme Config
+----------------------------------- */
+@theme {
+  --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* -----------------------------------
+  Dark Mode Variant
+----------------------------------- */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* -----------------------------------
+  Quill Editor Cleanup
+----------------------------------- */
+.ql-ui {
+  display: none;
+}
+
+[data-list="ordered"] {
+  list-style-type: decimal;
+  margin-left: 1.25rem;
+}
+
+[data-list="bullet"] {
+  list-style-type: disc;
+  margin-left: 1.25rem;
+}
+
+/* -----------------------------------
+  Typography Override
+----------------------------------- */
+@layer base {
+  .prose {
+    @apply max-w-none text-gray-800 leading-relaxed;
+  }
+
+  .prose h1 {
+    @apply text-4xl font-extrabold mb-4 mt-6 text-gray-900;
+  }
+
+  .prose h2 {
+    @apply text-3xl font-bold mb-3 mt-5 text-gray-900;
+  }
+
+  .prose h3 {
+    @apply text-2xl font-semibold mb-2 mt-4 text-gray-800;
+  }
+
+  .prose p {
+    @apply text-base mb-4 text-gray-700;
+  }
+
+  .prose strong {
+    @apply font-bold text-gray-900;
+  }
+
+  .prose em {
+    @apply italic;
+  }
+
+  .prose sup,
+  .prose sub {
+    @apply text-sm;
+  }
+
+  .prose ol {
+    @apply list-decimal ml-6 mb-4;
+  }
+
+  .prose ul {
+    @apply list-disc ml-6 mb-4;
+  }
+
+  .prose li {
+    @apply mb-1;
+  }
+
+  .prose a {
+    @apply text-blue-600 underline hover:text-blue-800;
+  }
+
+  .prose blockquote {
+    @apply border-l-4 border-gray-300 pl-4 italic text-gray-600;
+  }
+
+  .prose code {
+    @apply bg-gray-100 text-gray-800 px-1 py-0.5 rounded;
+  }
+
+  .prose pre {
+    @apply bg-gray-100 text-gray-800 p-3 rounded-md overflow-x-auto;
+  }
+
+  .prose img {
+    @apply rounded-lg my-4;
+  }
+
+  .prose hr {
+    @apply border-gray-300 my-6;
+  }
+}
+
+/* -----------------------------------
+  Optional Dark Mode Styling
+----------------------------------- */
+/* @layer base {
+  [data-theme="dark"] .prose {
+    @apply text-gray-200;
+  }
+
+  [data-theme="dark"] .prose h1,
+  [data-theme="dark"] .prose h2,
+  [data-theme="dark"] .prose h3 {
+    @apply text-gray-100;
+  }
+
+  [data-theme="dark"] .prose a {
+    @apply text-blue-400 hover:text-blue-300;
+  }
+
+  [data-theme="dark"] .prose blockquote {
+    @apply border-gray-600 text-gray-300;
+  }
+
+  [data-theme="dark"] .prose code {
+    @apply bg-gray-800 text-gray-100;
+  }
+
+  [data-theme="dark"] .prose pre {
+    @apply bg-gray-800 text-gray-100;
+  }
+} */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-out;
+}
