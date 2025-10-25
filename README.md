@@ -1,13 +1,13 @@
 # 📰 OwnBlog
 
-**OwnBlog** adalah platform blog pribadi buatan sendiri, dibuat menggunakan **Laravel 12 + Livewire 3**, dan dikombinasikan dengan **TailwindCSS**, **Vite**, serta beberapa package tambahan untuk memperkaya fitur seperti upload gambar, text editor, dan content sanitization.
+**OwnBlog** adalah platform blog pribadi buatan sendiri, dibuat menggunakan **Laravel 12 + Livewire 3**, dan dikombinasikan dengan **TailwindCSS**, **Vite**, serta beberapa package tambahan untuk memperkaya fitur seperti upload gambar, dan text editor.
 
 ---
 
 ## 🚀 Deskripsi Singkat
 
 OwnBlog dibuat sebagai project pribadi yang berfungsi sebagai **portfolio sekaligus playground** untuk eksplorasi Laravel dan Livewire.  
-Tujuan utamanya adalah membangun sistem blog modern dengan fokus pada performa, UX, dan keamanan input pengguna.
+Tujuan utamanya adalah membangun sistem blog modern dengan fokus pada performa, dan UX.
 
 ---
 
@@ -99,9 +99,9 @@ npm run dev
 Project akan running di http://127.0.0.1:8000 . bukalah url tersebut di browser
 
 **🌟 Coming Soon**
-🚧 Settings user
-🚧 Sign up Form
-🚧 Optimasi Tag
-🚧 Tag & kategori dinamis
-🚧 Compress gambar input konten
-🚧 Easy installer
+- 🚧 Settings user
+- 🚧 Sign up Form
+- 🚧 Optimasi Tag
+- 🚧 Tag & kategori dinamis
+- 🚧 Compress gambar input konten
+- 🚧 Easy installer
