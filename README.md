@@ -97,6 +97,7 @@ php artisan serve
 npm run dev
 ```
 Project akan running di http://127.0.0.1:8000 . bukalah url tersebut di browser
+Untuk menambahkan konten, masuk kedalam publihser/admin form dengan http://127.0.0.1:8000/login
 
 **🌟 Coming Soon**
 - 🚧 Settings user
