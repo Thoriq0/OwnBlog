@@ -106,3 +106,25 @@ Untuk menambahkan konten, masuk kedalam publihser/admin form dengan http://127.0
 - 🚧 Tag & kategori dinamis
 - 🚧 Compress gambar input konten
 - 🚧 Easy installer
+
+
+## **Preview**
+---
+
+### 🏠 Home
+![Home](./preview/home.png)
+
+### 📄 Page
+![Page](./preview/page.png)
+
+---
+
+### 🧭 Admin Dashboard
+![Admin Dashboard](./preview/adminDashboard.png)
+
+### 🧾 Content List
+![Content List](./preview/contentList.png)
+
+### 📝 Content Form
+![Content Form](./preview/contentForm.png)
+
