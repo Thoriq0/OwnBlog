@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -17,14 +15,20 @@ class AuthController extends Controller
 
     // Login Handle 
     public function loginHandle(Request $request){
-        // dd($request->all());
-        $credential = $request->only('email', 'password');
-        $user = User::where('email', $credential['email'])->first();
-        if($user->email && Hash::check($credential['password'], $user->password)){
-            Auth::login($user);
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string'],
+        ]);
+
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            $request->session()->regenerate();
+
             return redirect()->intended('/dashboard');
         }
-        return back()->withErrors(['email' => 'Email atau Password Salah']);
+
+        return back()
+            ->withErrors(['email' => 'Email atau Password Salah'])
+            ->onlyInput('email');
     }
 
     public function logout(Request $request)

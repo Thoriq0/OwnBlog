@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\Content;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,15 +13,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        
-        // Content::factory(100)->create();
-
         // User Admin
-        User::factory()->create([
-            'name' => 'Test User',
+        User::query()->updateOrCreate([
             'email' => 'admin@admin.com',
+        ], [
+            'name' => 'Test User',
             'password' => 'password',
             'role' => 'admin',
         ]);
+
+        $this->call(ContentSeeder::class);
     }
 }

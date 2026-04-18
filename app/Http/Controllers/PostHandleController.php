@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Content;
+use App\Support\ContentDocument;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PostHandleController extends Controller
 {
@@ -19,14 +22,17 @@ class PostHandleController extends Controller
                 'string',
                 'regex:/^(?!.*\d{2,}).*$/',
             ],
-            'slug'       => 'required|string',
+            'slug'       => 'required|string|unique:contents,slug',
             'categories' => 'required|string',
             'tags'       => 'nullable|string',
             'status'     => 'required|string',
             'content'    => [
                 'required',
                 function ($attribute, $value, $fail) {
-                    $clean = trim(strip_tags($value));
+                    $clean = trim(strip_tags(Str::markdown($value, [
+                        'html_input' => 'strip',
+                        'allow_unsafe_links' => false,
+                    ])));
                     if ($clean === '' || strlen($clean) === 0) {
                         $fail('Isi kontennya jangan kosong dong bro 😡');
                     }
@@ -48,6 +54,8 @@ class PostHandleController extends Controller
         $folder = 'contents/' . $request->slug;
         Storage::disk('public')->makeDirectory($folder);
 
+        $contentPath = ContentDocument::write($request->slug, $request->content);
+
         if ($request->hasFile('banner')) {
             $file     = $request->file('banner');
             $filename = 'banner.' . $file->getClientOriginalExtension();
@@ -60,19 +68,20 @@ class PostHandleController extends Controller
                 ? $image->toPng(70)
                 : $image->toJpeg(70);
 
-            Storage::put($filePath, (string) $compressed);
+            Storage::disk('public')->put($filePath, (string) $compressed);
         }
 
 
-        $insert = Content::create([
+        Content::create([
             'title'    => $request->title,
             'slug'     => $request->slug,
             'category' => $request->categories,
             'tags'     => $request->tags,
             'status'   => $request->status,
-            'author'   => 'Thoriq',
+            'author'   => Auth::user()?->name ?? 'Thoriq',
             'views'    => 0,
-            'contents' => $request->content,
+            'contents' => '',
+            'content_path' => $contentPath,
         ]);
 
         $msg = $request->status === 'published'

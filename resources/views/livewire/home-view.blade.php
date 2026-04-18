@@ -1,11 +1,15 @@
 <div>
-    <section class="bg-center bg-cover bg-no-repeat bg-gray-700 bg-blend-multiply lg:h-screen bg-fixed"
-        style="background-image: url('{{ asset('images/homepage.jpg') }}')">
-        <div class="px-4 pt-44 mx-auto lg:pt-72 max-w-screen-xl text-center py-24 lg:py-56">
-            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">I
-                believe in the world's endless potential</h1>
-            <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">On my blog, I share stories
-                about tech, fresh ideas, and easy ways to build something meaningful so we can all grow together.</p>
+    <section
+        class="flex items-center justify-center bg-fixed bg-center bg-cover bg-no-repeat bg-stone-900/60 bg-blend-multiply px-6 text-center sm:px-10 lg:px-16 dark:bg-stone-950/65"
+        style="background-image: url('{{ asset('images/homepage.jpg') }}'); min-height: 100vh; box-sizing: border-box; padding-top: 5rem;"
+    >
+        <div class="w-full max-w-5xl">
+            <h1 class="mb-4 text-4xl font-extrabold leading-tight tracking-tight text-white md:text-5xl lg:text-6xl">
+                I believe in the world's endless potential
+            </h1>
+            <p class="mx-auto max-w-3xl text-lg font-normal text-gray-300 lg:text-xl">
+                On my blog, I share stories about tech, fresh ideas, and easy ways to build something meaningful so we can all grow together.
+            </p>
         </div>
     </section>
 
@@ -14,9 +18,9 @@
     {{-- <hr id="bbc-lol" class="border-gray-200 border-{1px} sticky top-[4.6rem] z-20 w-[70%] m-auto hidden"> --}}
 
     <div id="breadcrumb"
-        class="border-gray-300 dark:bg-gray-900 flex md:sticky top-0 justify-between p-4 lg:px-10 bg-white shadow-lg shadow-black-300 z-20">
+        class="z-20 flex justify-between border-b border-slate-200 bg-white/95 p-4 shadow-lg shadow-slate-900/5 backdrop-blur md:sticky top-0 lg:px-10 dark:border-slate-800 dark:bg-slate-900/95">
         <div class="titleBc">
-            <p class="font-semibold">OwnBlog</p>
+            <p class="font-semibold text-slate-900 dark:text-slate-100">OwnBlog</p>
         </div>
 
         <div class="breadcrumb">
@@ -24,7 +28,7 @@
                 <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                     <li class="inline-flex items-center">
                         <a href="/"
-                            class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                            class="inline-flex items-center text-sm font-medium text-slate-700 hover:text-cyan-600 dark:text-slate-300 dark:hover:text-white">
                             <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 fill="currentColor" viewBox="0 0 20 20">
                                 <path
@@ -39,31 +43,28 @@
     </div>
 
     {{-- contents --}}
-    <div class="sm:grid sm:grid-cols-12 sm:mt-16 lg:mx-10">
+    <div class="pb-16 sm:mt-16 sm:grid sm:grid-cols-12 sm:pb-20 lg:mx-10 lg:pb-24">
 
         {{-- left content --}}
-        <div class="sm:col-span-5 lg:col-span-3 sm:mx-5 lg:mx-4 rounded-lg ">
-
-            {{-- SearchBar --}}
-            <div class="mt-14 px-7 sm:px-0 sm:mt-0 flex w-full items-center sm:max-w-sm sm:mx-auto mb-3.5">   
-                <label for="simple-search" class="sr-only">Search</label>
-                <div class="relative w-full">
-                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <svg class="w-6 h-6 text-gray-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v13H7a2 2 0 0 0-2 2Zm0 0a2 2 0 0 0 2 2h12M9 3v14m7 0v4"/>
-                        </svg>
-
+        <div class="mt-14 rounded-lg px-7 sm:col-span-5 sm:mt-0 sm:mx-5 sm:px-0 lg:col-span-3 lg:mx-4">
+            <div class="flex flex-col pb-10 lg:pb-12">
+                {{-- SearchBar --}}
+                <div class="mb-6 flex w-full items-center sm:max-w-sm sm:mx-auto">
+                    <label for="simple-search" class="sr-only">Search</label>
+                    <div class="relative w-full">
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg class="h-6 w-6 text-slate-500 dark:text-slate-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v13H7a2 2 0 0 0-2 2Zm0 0a2 2 0 0 0 2 2h12M9 3v14m7 0v4"/>
+                            </svg>
+                        </div>
+                        <input type="text" id="simple-search" class="block w-full rounded-xl border border-slate-200 bg-white/90 p-2.5 ps-10 text-sm text-slate-900 shadow-sm focus:border-cyan-400 focus:ring-cyan-400 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder-slate-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500" placeholder="Post Title..." wire:model.live="search" />
                     </div>
-                    <input type="text" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Post Title..." wire:model.live="search" />
                 </div>
-            </div>
 
-
-            <div class="hidden sm:grid grid-rows-3 sm:gap-5 lg:gap-4">
-                <div class="container sm:h-fit rounded-lg bg-gray-100 text-left p-7">
+                <div class="container sm:h-fit rounded-[1.5rem] border border-slate-200 bg-white/85 p-7 text-left shadow-sm shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-900/80">
 
                     {{-- Category Title --}}
-                    <h2 class="font-extrabold pb-2.5 text-xl">Categories</h2>
+                    <h2 class="pb-2.5 text-xl font-extrabold text-slate-900 dark:text-white">Categories</h2>
                     <ul class="mt-2">
                         <li class="cat">
                             <a href="/tech-notes/post">
@@ -94,35 +95,38 @@
 
                 </div>
 
-                <div class="container rounded-lg bg-gray-100 text-left p-7 row-span-2 h-fit">
+                <div class="container mt-6 h-fit rounded-[1.5rem] border border-slate-200 bg-white/85 p-7 text-left shadow-sm shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-900/80">
 
                     {{-- Category Title --}}
-                    <h2 class="font-extrabold pb-3 text-xl">Top Posts</h2>
+                    <h2 class="pb-3 text-xl font-extrabold text-slate-900 dark:text-white">Top Posts</h2>
                     <ul class="mt-2">
-                        @foreach ($topPosts as $topPost)
+                        @forelse ($topPosts as $topPost)
                             <li class="Tp flex pb-3.5">
                                 <span class="font-bold text-2xl pr-2.5">{{ $loop->iteration }}</span>
                                 <a href="/post/read-{{ $topPost->slug }}">
                                     <div>
-                                        <div class="title font-semibold">
+                                        <div class="title font-semibold text-slate-900 dark:text-slate-100">
                                             {{ Str::limit($topPost->title, 44, '...') }}
                                         </div>
-                                        <div class="subDesc text-gray-400 font-semibold text-sm">
-                                            {{ $topPost->category }} -
+                                        <div class="subDesc text-sm font-semibold text-slate-400 dark:text-slate-500">
+                                            {{ $topPost->category_label }} -
                                             {{ $topPost->created_at->toFormattedDateString() }}
                                         </div>
                                     </div>
                                 </a>
-
                             </li>
-                        @endforeach
+                        @empty
+                            <li class="rounded-2xl border border-dashed border-slate-200 px-4 py-6 text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
+                                Belum ada post yang bisa ditampilkan di sini.
+                            </li>
+                        @endforelse
                     </ul>
                 </div>
             </div>
         </div>
 
         {{-- Right content --}}
-        <div id="'paginated-posts" class="m-7 sm:m-0 sm:col-span-7 lg:col-span-9 sm:mx-5 lg:mx-4">
+        <div id="paginated-posts" class="m-7 sm:m-0 sm:col-span-7 sm:mx-5 lg:col-span-9 lg:mx-4">
             {{-- Container --}}
             <div class="container">
 
@@ -132,7 +136,7 @@
                         width: 120px; 
                         height: 20px;  
                         -webkit-mask: radial-gradient(circle closest-side,#000 94%,#0000) left/20% 100%;
-                        background: linear-gradient(#000 0 0) left/0% 100% no-repeat #ddd;
+                        background: linear-gradient(#38bdf8 0 0) left/0% 100% no-repeat rgba(148,163,184,.25);
                         animation: l17 2s infinite steps(6);"></div>
                 </div>
 
@@ -140,29 +144,24 @@
                 <div wire:loading.remove id="contents" class="grid gap-9 sm:grid-cols-1 lg:grid-cols-2 sm:gap-5 lg:gap-9">
                     @forelse ($contents as $index => $content)
                         <div
-                            class="sm:max-w-lg w-full h-full sm:m-auto lg:max-w-lg md:block {{ $index >= 4 ? 'hidden' : '' }} 
-                            bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                            class="h-full w-full rounded-[1.5rem] border border-slate-200 bg-white shadow-sm shadow-slate-900/5 sm:m-auto sm:max-w-lg dark:border-slate-800 dark:bg-slate-900">
 
-                            <span>
-                                @php
-                                    $formats = ['jpg', 'jpeg', 'png', 'webp'];
-                                    $banner = null;
+                            @php
+                                $formats = ['jpg', 'jpeg', 'png', 'webp'];
+                                $banner = null;
+                                $storage = \Illuminate\Support\Facades\Storage::disk('public');
 
-                                    foreach ($formats as $ext) {
-                                        $path = public_path("storage/contents/{$content->slug}/banner.{$ext}");
-                                        if (file_exists($path)) {
-                                            $banner = asset("storage/contents/{$content->slug}/banner.{$ext}");
-                                            break;
-                                        }
+                                foreach ($formats as $ext) {
+                                    $path = "contents/{$content->slug}/banner.{$ext}";
+                                    if ($storage->exists($path)) {
+                                        $banner = $storage->url($path);
+                                        break;
                                     }
-                                @endphp
-                                @if ($banner)
-                                    <img src="{{ $banner }}" alt="{{ $content->title }}" class="rounded-t-lg w-full h-[300px]">
-                                @else
-                                    <img src="{{ asset('storage/own/bg-view.jpeg') }}" alt="{{ $content->title }}" class="rounded-t-lg bg-cover">
-                                @endif
-
-                            </span>
+                                }
+                            @endphp
+                            @if ($banner)
+                                <img src="{{ $banner }}" alt="{{ $content->title }}" class="h-[300px] w-full rounded-t-lg object-cover">
+                            @endif
 
                             <div class="p-5">
                                 <a href="/post/read-{{ $content->slug }}">
@@ -171,7 +170,7 @@
                                     </h5>
                                 </a>
 
-                                <p class="author text-sm pb-2.5 font-semibold text-gray-400">
+                                <p class="author pb-2.5 text-sm font-semibold text-slate-400 dark:text-slate-500">
                                     <span class="hover:text-blue-700">
                                         <a href="#" target="_blank">
                                             {{ $content->author }}
@@ -180,13 +179,13 @@
                                     - {{ $content->created_at->toFormattedDateString() }}
                                 </p>
 
-                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                                    {{ Str::limit(strip_tags($content->contents), 180, '...') }}
+                                <p class="mb-3 font-normal text-slate-700 dark:text-slate-300">
+                                    {{ Str::limit($content->content_preview_text, 180, '...') }}
                                 </p>
                             </div>
                         </div>
                     @empty
-                        <div class="col-span-full text-center text-gray-500 py-12">
+                        <div class="col-span-full py-12 text-center text-slate-500 dark:text-slate-400">
                             <p>Post {{ $search }} Not Found.</p>
                             
                         </div>
@@ -194,7 +193,7 @@
                 </div>
 
                 {{-- Pagination --}}
-                <div id="pagination" class="my-14">
+                <div id="pagination" class="mt-14 flex justify-end pr-2 sm:pr-0">
                     {{ $contents->links('livewire.pagination.custom-tailwind', data: ['scrollTo' => '#paginated-posts']) }}
                 </div>
             </div>

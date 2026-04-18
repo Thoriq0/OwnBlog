@@ -12,8 +12,8 @@
         <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
             <li class="inline-flex items-center">
                 <div class="flex items-center">
-                    @if ($post->category === 'tech notes')
-                        <svg class="w-5 h-5 text-gray-500 dark:text-white" aria-hidden="true"
+                    @if ($post->category === 'tech-notes')
+                        <svg class="h-5 w-5 text-slate-500 dark:text-slate-200" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                             viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
@@ -21,21 +21,21 @@
                                 clip-rule="evenodd" />
                         </svg>
                     @elseif ($post->category === 'projects')
-                        <svg class="w-5 h-5 text-gray-500 dark:text-white" aria-hidden="true"
+                        <svg class="h-5 w-5 text-slate-500 dark:text-slate-200" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                             viewBox="0 0 24 24">
                             <path
                                 d="M18 17h-.09c.058-.33.088-.665.09-1v-1h1a1 1 0 0 0 0-2h-1.09a5.97 5.97 0 0 0-.26-1H17a2 2 0 0 0 2-2V8a1 1 0 1 0-2 0v2h-.54a6.239 6.239 0 0 0-.46-.46V8a3.963 3.963 0 0 0-.986-2.6l.693-.693A1 1 0 0 0 16 4V3a1 1 0 1 0-2 0v.586l-.661.661a3.753 3.753 0 0 0-2.678 0L10 3.586V3a1 1 0 1 0-2 0v1a1 1 0 0 0 .293.707l.693.693A3.963 3.963 0 0 0 8 8v1.54a6.239 6.239 0 0 0-.46.46H7V8a1 1 0 0 0-2 0v2a2 2 0 0 0 2 2h-.65a5.97 5.97 0 0 0-.26 1H5a1 1 0 0 0 0 2h1v1a6 6 0 0 0 .09 1H6a2 2 0 0 0-2 2v2a1 1 0 1 0 2 0v-2h.812A6.012 6.012 0 0 0 11 21.907V12a1 1 0 0 1 2 0v9.907A6.011 6.011 0 0 0 17.188 19H18v2a1 1 0 0 0 2 0v-2a2 2 0 0 0-2-2Zm-4-8.65a5.922 5.922 0 0 0-.941-.251l-.111-.017a5.52 5.52 0 0 0-1.9 0l-.111.017A5.925 5.925 0 0 0 10 8.35V8a2 2 0 1 1 4 0v.35Z" />
                         </svg>
                     @elseif ($post->category === 'tutorials')
-                        <svg class="w-5 h-5 text-gray-500 dark:text-white" aria-hidden="true"
+                        <svg class="h-5 w-5 text-slate-500 dark:text-slate-200" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                             viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M3 15v3c0 .5523.44772 1 1 1h4v-4m-5 0v-4m0 4h5m-5-4V6c0-.55228.44772-1 1-1h16c.5523 0 1 .44772 1 1v1.98935M3 11h5v4m9.4708 4.1718-.8696-1.4388-2.8164-.235-2.573-4.2573 1.4873-2.8362 1.4441 2.3893c.3865.6396 1.2183.8447 1.8579.4582.6396-.3866.8447-1.2184.4582-1.858l-1.444-2.38925h3.1353l2.6101 4.27715-1.0713 2.5847.8695 1.4388" />
                         </svg>
                     @elseif ($post->category === 'stories')
-                        <svg class="w-5 h-5 text-gray-500 dark:text-white" aria-hidden="true"
+                        <svg class="h-5 w-5 text-slate-500 dark:text-slate-200" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                             viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
@@ -43,7 +43,7 @@
                                 clip-rule="evenodd" />
                         </svg>
                     @elseif ($post->category === 'writing')
-                        <svg class="w-5 h-5 text-gray-500 dark:text-white" aria-hidden="true"
+                        <svg class="h-5 w-5 text-slate-500 dark:text-slate-200" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                             viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
@@ -56,20 +56,20 @@
                     @endif
 
                     <a href="/{{ $post->category }}/post"
-                        class="inline-flex pl-1.5 items-center text-sm font-medium capitalize text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
-                        {{ $post->category }}
+                        class="inline-flex items-center pl-1.5 text-sm font-medium capitalize text-slate-700 hover:text-cyan-600 dark:text-slate-300 dark:hover:text-white">
+                        {{ $post->category_label }}
                     </a>
                 </div>
             </li>
             <li>
                 <div class="flex items-center">
-                    <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true"
+                    <svg class="mx-1 h-3 w-3 text-slate-400 rtl:rotate-180" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="m1 9 4-4-4-4" />
                     </svg>
                     <a
-                        class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">Post</a>
+                        class="ms-1 text-sm font-medium text-slate-700 hover:text-cyan-600 md:ms-2 dark:text-slate-300 dark:hover:text-white">Post</a>
                 </div>
             </li>
         </ol>
@@ -80,19 +80,18 @@
         @php
             $formats = ['jpg', 'jpeg', 'png', 'webp'];
             $banner = null;
+            $storage = \Illuminate\Support\Facades\Storage::disk('public');
 
             foreach ($formats as $ext) {
-                $path = public_path("storage/contents/{$post->slug}/banner.{$ext}");
-                if (file_exists($path)) {
-                    $banner = asset("storage/contents/{$post->slug}/banner.{$ext}");
+                $path = "contents/{$post->slug}/banner.{$ext}";
+                if ($storage->exists($path)) {
+                    $banner = $storage->url($path);
                     break;
                 }
             }
         @endphp
         @if ($banner)
-            <img src="{{ $banner }}" alt="{{ $post->title }}" class="w-full max-h-[540px]">
-        @else
-            <img src="{{ asset('storage/own/bg-view.jpeg') }}" alt="{{ $post->title }}" class="w-full max-h-[540px]">
+            <img src="{{ $banner }}" alt="{{ $post->title }}" class="max-h-[540px] w-full object-cover">
         @endif
         {{-- <img src="https://images.unsplash.com/photo-1760340769739-653d00200baf?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=870"
             alt="banner" class="w-full max-h-[540px]" /> --}}
@@ -101,15 +100,14 @@
     {{-- Content --}}
     <div class="content mt-4 px-7 md:px-5 sm:px-10 lg:px-0">
         <div class="author">
-            <p class="text-sm text-gray-500 font-semibold">Posted by {{ $post->author }},
+            <p class="text-sm font-semibold text-slate-500 dark:text-slate-400">Posted by {{ $post->author }},
                 {{ $post->created_at->toFormattedDateString() }}</p>
-            <p class="text-sm text-gray-500 pt-2">{{ $post->tags }}</p>
+            <p class="pt-2 text-sm text-slate-500 dark:text-slate-400">{{ $post->tags }}</p>
         </div>
 
         <div class="write my-10">
             <article class="prose prose-lg prose-neutral max-w-none">
-                {{-- {!! Purifier::clean($post->contents) !!} --}}
-                {!! $post->contents !!}
+                {!! $post->content_html !!}
             </article>
         </div>
     </div>

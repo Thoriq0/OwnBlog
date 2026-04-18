@@ -106,7 +106,7 @@
                                 {{ ucfirst($post->status) }}
                             </span>
                         </td>
-                        <td class="px-6 py-4">{{ ucfirst($post->category) }}</td>
+                        <td class="px-6 py-4">{{ $post->category_label }}</td>
                         <td class="px-6 py-4 text-gray-500 dark:text-gray-400">
                             {{ $post->created_at->format('M d, Y') }}
                         </td>

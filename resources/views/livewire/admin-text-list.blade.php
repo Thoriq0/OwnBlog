@@ -174,7 +174,7 @@
                                 {{ ucfirst($content->status) }}
                             </span>
                         </td>
-                        <td class="px-6 py-4">{{ ucfirst($content->category) }}</td>
+                        <td class="px-6 py-4">{{ $content->category_label }}</td>
                         <td class="px-6 py-4 text-gray-500 dark:text-gray-400">
                             {{ $content->created_at->format('M d, Y') }}
                         </td>

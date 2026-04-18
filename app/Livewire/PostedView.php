@@ -15,6 +15,11 @@ class PostedView extends Component
 
     public $search = '';
 
+    public function updatingSearch(): void
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         return view('livewire.posted-view', [

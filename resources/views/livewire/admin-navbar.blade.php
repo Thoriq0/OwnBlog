@@ -22,6 +22,19 @@
                     </a>
                 </div>
                 <div class="flex items-center">
+                    <button type="button" data-theme-toggle class="theme-button me-3" aria-label="Toggle theme">
+                        <span data-theme-icon-light class="theme-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-[1.05rem] w-[1.05rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 6.5A6.5 6.5 0 1 0 21.5 13 5.5 5.5 0 0 1 15 6.5Z" />
+                            </svg>
+                        </span>
+                        <span data-theme-icon-dark class="theme-icon hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-[1.05rem] w-[1.05rem]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 2.75v2.5M12 18.75v2.5M4.75 12h-2.5M21.75 12h-2.5M6.88 6.88 5.1 5.1M18.9 18.9l-1.78-1.78M17.12 6.88l1.78-1.78M5.1 18.9l1.78-1.78M15.5 12a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" />
+                            </svg>
+                        </span>
+                        <span data-theme-label>Dark mode</span>
+                    </button>
                     {{-- Notification --}}
                     {{-- User --}}
                     <div class="flex items-center ms-3">

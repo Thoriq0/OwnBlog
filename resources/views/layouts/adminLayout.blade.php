@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="light">
 
 <head>
       <meta charset="utf-8">
@@ -18,11 +18,18 @@
 
       <!-- Styles / Scripts -->
       @vite(['resources/css/app.css', 'resources/js/app.js'])
+      <script>
+            (() => {
+                  const storedTheme = localStorage.getItem('ownblog-theme');
+                  const theme = storedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                  document.documentElement.setAttribute('data-theme', theme);
+            })();
+      </script>
 </head>
 
 
 
-<body data-theme="light">
+<body>
 
    <div id="app">
 

@@ -33,7 +33,7 @@
     @endif
 
 
-    <form method="POST" action="{{ route('post.updated', $content->id) }}" enctype="multipart/form-data" class="space-y-6">
+    <form method="POST" action="{{ route('post.updated', $content->id) }}" enctype="multipart/form-data" class="space-y-6" data-markdown-editor>
         @csrf
         @method('PUT')
 
@@ -45,7 +45,7 @@
                 <label for="title" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                     Title<sup class="text-red-600">*</sup>
                 </label>
-                <input type="text" id="title" name="title"
+                <input type="text" id="title" name="title" data-markdown-title
                     value="{{ old('title', $content->title) }}"
                     class="w-full text-sm p-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 shadow-sm transition">
             </div>
@@ -55,7 +55,7 @@
                 <label for="slug" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                     Slug
                 </label>
-                <input type="text" id="slug" name="slug" readonly
+                <input type="text" id="slug" name="slug" readonly data-markdown-slug data-slug-locked="true"
                     value="{{ old('slug', $content->slug) }}"
                     class="w-full p-2.5 text-sm rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 shadow-sm cursor-not-allowed">
             </div>
@@ -68,11 +68,12 @@
                 @php
                     $formats = ['jpg', 'jpeg', 'png', 'webp'];
                     $banner = null;
+                    $storage = \Illuminate\Support\Facades\Storage::disk('public');
 
                     foreach ($formats as $ext) {
-                        $path = public_path("storage/contents/{$content->slug}/banner.{$ext}");
-                        if (file_exists($path)) {
-                            $banner = asset("storage/contents/{$content->slug}/banner.{$ext}");
+                        $path = "contents/{$content->slug}/banner.{$ext}";
+                        if ($storage->exists($path)) {
+                            $banner = $storage->url($path);
                             break;
                         }
                     }
@@ -80,7 +81,9 @@
                 @if ($banner)
                     <img src="{{ $banner }}" alt="Banner" class="w-full h-32 object-cover rounded-lg border border-gray-200 dark:border-gray-700">
                 @else
-                    <img src="" alt="No Banner" class="w-full grid content-center text-sm h-16 p-1.5 object-cover rounded-lg border border-gray-200 dark:border-gray-700">
+                    <div class="flex h-32 w-full items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 text-sm text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400">
+                        No banner uploaded yet
+                    </div>
                 @endif
                 <input id="banner" type="file" name="banner"
                     class="block w-full h-fit p-1 text-sm text-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-800 dark:text-gray-400 focus:outline-none">
@@ -99,11 +102,11 @@
                 <select id="categories" name="categories"
                     class="w-full p-2.5 text-sm rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 shadow-sm">
                     <option value="">Select category...</option>
-                    <option value="tech-notes" {{ $content->category === "tech-notes" ? 'selected' : '' }} >Tech Notes</option>
-                    <option value="projects" {{ $content->category === "projects" ? 'selected' : '' }} >Projects</option>
-                    <option value="tutorials" {{ $content->category === "tutorials" ? 'selected' : '' }} >Tutorials</option>
-                    <option value="stories" {{ $content->category === "stories" ? 'selected' : '' }} >Stories</option>
-                    <option value="writing" {{ $content->category === "writing" ? 'selected' : '' }} >Writing</option>
+                    <option value="tech-notes" {{ old('categories', $content->category) === 'tech-notes' ? 'selected' : '' }} >Tech Notes</option>
+                    <option value="projects" {{ old('categories', $content->category) === 'projects' ? 'selected' : '' }} >Projects</option>
+                    <option value="tutorials" {{ old('categories', $content->category) === 'tutorials' ? 'selected' : '' }} >Tutorials</option>
+                    <option value="stories" {{ old('categories', $content->category) === 'stories' ? 'selected' : '' }} >Stories</option>
+                    <option value="writing" {{ old('categories', $content->category) === 'writing' ? 'selected' : '' }} >Writing</option>
                 </select>
             </div>
 
@@ -124,12 +127,12 @@
                 </label>
                 <div class="flex gap-5 items-center p-2.5 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700">
                     <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                        <input type="radio" name="status" value="draft" {{ $content->status === 'draft' ? 'checked' : '' }}
+                        <input type="radio" name="status" value="draft" {{ old('status', $content->status) === 'draft' ? 'checked' : '' }}
                             class="text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600">
                         Draft
                     </label>
                     <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                        <input type="radio" name="status" value="published" {{ $content->status === 'published' ? 'checked' : '' }}
+                        <input type="radio" name="status" value="published" {{ old('status', $content->status) === 'published' ? 'checked' : '' }}
                             class="text-green-600 focus:ring-green-500 border-gray-300 dark:border-gray-600">
                         Publish
                     </label>
@@ -137,20 +140,46 @@
             </div>
         </div>
 
-        {{-- Group 3: Content Editor --}}
-        <div>
-            <label for="editor" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                Content<sup class="text-red-600">*</sup>
-            </label>
-
-            {{-- Editor container --}}
-            <div id="editor"
-                class="min-h-[200px] w-full p-3 rounded-b-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus-within:ring-2 focus-within:ring-blue-500 transition">
-                {!! $content->contents !!}
+        {{-- Group 3: Markdown Editor --}}
+        <div class="markdown-shell">
+            <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                <div>
+                    <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Markdown Content<sup class="text-red-600">*</sup>
+                    </label>
+                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                        Edit file Markdown artikelmu dan cek hasil render-nya sebelum disimpan.
+                    </p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button type="button" class="markdown-toolbar-button" data-md-action="heading">H2</button>
+                    <button type="button" class="markdown-toolbar-button" data-md-action="bold">Bold</button>
+                    <button type="button" class="markdown-toolbar-button" data-md-action="italic">Italic</button>
+                    <button type="button" class="markdown-toolbar-button" data-md-action="quote">Quote</button>
+                    <button type="button" class="markdown-toolbar-button" data-md-action="list">List</button>
+                    <button type="button" class="markdown-toolbar-button" data-md-action="table">Table</button>
+                    <button type="button" class="markdown-toolbar-button" data-md-action="code">Code</button>
+                    <button type="button" class="markdown-toolbar-button" data-md-action="link">Link</button>
+                </div>
             </div>
 
-            {{-- Hidden input for editor content --}}
-            <textarea id="hidden-input" name="content" hidden>{!! $content->contents !!}</textarea>
+            <div class="mt-6 grid gap-5 xl:grid-cols-2">
+                <div>
+                    <textarea id="content" name="content" data-markdown-input class="markdown-input" placeholder="# Judul artikel&#10;&#10>Tulis konten markdown di sini...">{{ old('content', $content->markdown_content) }}</textarea>
+                </div>
+                <div class="markdown-preview-panel">
+                    <div class="mb-4 flex items-center justify-between">
+                        <h3 class="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400">
+                            Preview
+                        </h3>
+                        <span class="text-xs text-slate-400 dark:text-slate-500">Rendered from Markdown</span>
+                    </div>
+                    <div data-markdown-empty class="hidden rounded-2xl border border-dashed border-slate-200 px-4 py-6 text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
+                        Preview akan muncul di sini begitu kamu mulai ngetik.
+                    </div>
+                    <article data-markdown-preview class="prose prose-lg max-w-none"></article>
+                </div>
+            </div>
         </div>
 
         {{-- Action Button --}}
@@ -162,67 +191,3 @@
         </div>
     </form>
 </div>
-@push('scripts')
-    <script>
-        function slugGenerator() {
-            const getTitle = document.getElementById('title');
-            const getSlug  = document.getElementById('slug');
-
-            if (getTitle && !getTitle.dataset.slugBound) {
-                getTitle.dataset.slugBound = true; // biar gak dobel event listener
-                getTitle.addEventListener('input', () => {
-                    let title = getTitle.value.trim();
-                    let slug = title
-                        .toLowerCase()
-                        .replace(/\s+/g, '-')     
-                        .replace(/[^\w-]+/g, '');
-                    getSlug.value = slug;
-                });
-            }
-        }
-
-        function initQuillEditor() {
-            const editorContainer = document.getElementById('editor');
-            const hiddenInput = document.getElementById('hidden-input');
-
-            if (!editorContainer || editorContainer.dataset.initialized) return;
-            editorContainer.dataset.initialized = true;
-
-            const quill = new Quill('#editor', {
-                theme: 'snow',
-                placeholder: 'Berimajinasi lah coeg...',
-                modules: {
-                    toolbar: [
-                        [{ 'header': [1, 2, 3, false] }],
-                        ['bold', 'italic', 'underline', 'strike'],
-                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                        ['blockquote', 'code-block'],
-                        ['link', 'image'],
-                        [{'direction': 'rtl'}, {'script': 'sub'}, {'script' : 'super'}],
-                        ['clean']
-                    ]
-                }
-            });
-
-            // Prefill editor content
-            const existingContent = hiddenInput.value;
-            if (existingContent) quill.root.innerHTML = existingContent;
-
-            quill.on('text-change', () => {
-                hiddenInput.value = quill.root.innerHTML;
-            });
-        }
-
-        function initAllEdit() {
-            slugGenerator();
-            initQuillEditor();
-        }
-
-        document.addEventListener('DOMContentLoaded', initAllEdit);
-        document.addEventListener('livewire:load', initAllEdit);
-        document.addEventListener('livewire:navigated', initAllEdit);
-        if (window.Livewire) {
-            Livewire.hook('morph.updated', () => initAllEdit());
-        }
-    </script>
-@endpush

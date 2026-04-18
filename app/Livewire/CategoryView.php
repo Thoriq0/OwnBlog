@@ -16,6 +16,11 @@ class CategoryView extends Component
 
     public $category;
 
+    public function updatingSearch(): void
+    {
+        $this->resetPage();
+    }
+
     public function mount($category){
         // Get Category
         $this->category = $category;

@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Content;
+use App\Support\ContentDocument;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use Illuminate\Support\Str;
 
 class PutHandleController extends Controller
 {
@@ -37,15 +40,17 @@ class PutHandleController extends Controller
                         'string',
                         'regex:/^(?!.*\d{2,}).*$/', 
                     ],
-                'slug'       => 'required|string',
+                'slug'       => ['required', 'string', Rule::unique('contents', 'slug')->ignore($id)],
                 'categories' => 'required|string',
                 'tags'       => 'nullable|string',
                 'status'     => 'required|string',
                 'content'    => [
                         'required',
                         function ($attribute, $value, $fail) {
-                            // Hapus semua tag HTML
-                            $clean = trim(strip_tags($value));
+                            $clean = trim(strip_tags(Str::markdown($value, [
+                                'html_input' => 'strip',
+                                'allow_unsafe_links' => false,
+                            ])));
                             
                             if ($clean === '' || strlen($clean) === 0) {
                                 $fail('Isi kontennya jangan kosong dong bro 😡');
@@ -72,19 +77,10 @@ class PutHandleController extends Controller
             $content = Content::findOrFail($id);
             $oldSlug = $content->slug;
 
-            // rename folder
-            if ($oldSlug !== $request->slug) {
-                $oldFolder = 'contents/' . $oldSlug;
-                $newFolder = 'contents/' . $request->slug;
-
-                if (Storage::disk('public')->exists($oldFolder)) {
-                    Storage::disk('public')->move($oldFolder, $newFolder);
-                } else {
-                    Storage::disk('public')->makeDirectory($newFolder);
-                }
-            } else {
-                $newFolder = 'contents/' . $oldSlug;
-            }
+            ContentDocument::renamePublicDirectory($oldSlug, $request->slug);
+            $newFolder = 'contents/' . $request->slug;
+            $contentPath = ContentDocument::rename($oldSlug, $request->slug);
+            $contentPath = ContentDocument::write($request->slug, $request->content);
 
             // upload banner baru (jika ada)
             if ($request->hasFile('banner')) {
@@ -102,7 +98,7 @@ class PutHandleController extends Controller
                     ? $image->toPng(70)
                     : $image->toJpeg(70);
 
-                Storage::put($filePath, (string) $compressed);
+                Storage::disk('public')->put($filePath, (string) $compressed);
             }
 
             $content->update([
@@ -111,7 +107,8 @@ class PutHandleController extends Controller
                 'category' => $request->categories,
                 'tags'     => $request->tags,
                 'status'   => $request->status,
-                'contents' => $request->content,
+                'contents' => '',
+                'content_path' => $contentPath,
             ]);
 
             $msg = $request->status === 'published'

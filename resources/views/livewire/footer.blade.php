@@ -1,5 +1,5 @@
 <div>
-   <footer class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
+   <footer class="border-t border-slate-200 bg-white/95 dark:border-slate-800 dark:bg-slate-900/95">
       <div class="mx-auto w-full max-w-screen-xl p-6 md:py-10">
          <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
 
@@ -14,35 +14,35 @@
             {{-- Quick Links --}}
             <div class="grid grid-cols-3 sm:grid-cols-3 gap-8 text-sm">
                <div>
-                  <h3 class="mb-3 font-semibold text-gray-900 uppercase dark:text-white">Menu</h3>
-                  <ul class="text-gray-500 dark:text-gray-400 space-y-2">
-                     <li><a href="/" class="hover:underline">Home</a></li>
-                     <li><a href="/posts" class="hover:underline">Posts</a></li>
-                     <li><a href="/about" wire:navigate class="hover:underline">About</a></li>
+                  <h3 class="mb-3 font-semibold uppercase text-gray-900 dark:text-white">Menu</h3>
+                  <ul class="space-y-2 text-gray-500 dark:text-gray-400">
+                     <li><a href="/" class="hover:text-cyan-600 hover:underline dark:hover:text-cyan-300">Home</a></li>
+                     <li><a href="/posts" class="hover:text-cyan-600 hover:underline dark:hover:text-cyan-300">Posts</a></li>
+                     <li><a href="/about" wire:navigate class="hover:text-cyan-600 hover:underline dark:hover:text-cyan-300">About</a></li>
                   </ul>
                </div>
 
                <div>
-                  <h3 class="mb-3 font-semibold text-gray-900 uppercase dark:text-white">Category</h3>
-                  <ul class="text-gray-500 dark:text-gray-400 space-y-2">
-                     <li><a wire:navigate href="/tech-notes/post" class="hover:underline">Tech Notes</a></li>
-                     <li><a wire:navigate href="/tutorials/post" class="hover:underline">Tutorials</a></li>
-                     <li><a wire:navigate href="/stories/post" class="hover:underline">Stories</a></li>
+                  <h3 class="mb-3 font-semibold uppercase text-gray-900 dark:text-white">Category</h3>
+                  <ul class="space-y-2 text-gray-500 dark:text-gray-400">
+                     <li><a wire:navigate href="/tech-notes/post" class="hover:text-cyan-600 hover:underline dark:hover:text-cyan-300">Tech Notes</a></li>
+                     <li><a wire:navigate href="/tutorials/post" class="hover:text-cyan-600 hover:underline dark:hover:text-cyan-300">Tutorials</a></li>
+                     <li><a wire:navigate href="/stories/post" class="hover:text-cyan-600 hover:underline dark:hover:text-cyan-300">Stories</a></li>
                   </ul>
                </div>
 
                <div>
-                  <h3 class="mb-3 font-semibold text-gray-900 uppercase dark:text-white">Connect</h3>
-                  <ul class="text-gray-500 dark:text-gray-400 space-y-2">
-                     <li><a href="https://github.com/Thoriq0" target="_blank" class="hover:underline">GitHub</a></li>
-                     <li><a href="https://x.com/Thoriq527" target="_blank" class="hover:underline">Twitter/X</a></li>
-                     <li><a href="mailto:thoriq.ahmad1301@gmail.com" class="hover:underline">Email</a></li>
+                  <h3 class="mb-3 font-semibold uppercase text-gray-900 dark:text-white">Connect</h3>
+                  <ul class="space-y-2 text-gray-500 dark:text-gray-400">
+                     <li><a href="https://github.com/Thoriq0" target="_blank" class="hover:text-cyan-600 hover:underline dark:hover:text-cyan-300">GitHub</a></li>
+                     <li><a href="https://x.com/Thoriq527" target="_blank" class="hover:text-cyan-600 hover:underline dark:hover:text-cyan-300">Twitter/X</a></li>
+                     <li><a href="mailto:thoriq.ahmad1301@gmail.com" class="hover:text-cyan-600 hover:underline dark:hover:text-cyan-300">Email</a></li>
                   </ul>
                </div>
             </div>
          </div>
 
-         <hr class="my-8 border-gray-200 dark:border-gray-700">
+         <hr class="my-8 border-slate-200 dark:border-slate-800">
 
          <div class="flex flex-col sm:flex-row justify-between items-center text-gray-500 dark:text-gray-400 text-sm">
             <p>© {{ date('Y') }} <span class="font-semibold text-gray-700 dark:text-gray-200">OwnBlog</span></p>

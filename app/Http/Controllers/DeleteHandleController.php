@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Content;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
+use App\Support\ContentDocument;
 
 class DeleteHandleController extends Controller
 {
@@ -17,11 +14,7 @@ class DeleteHandleController extends Controller
     try {
         $content = Content::findOrFail($id);
 
-        // Hapus folder/banner
-        $folder = 'contents/' . $content->slug;
-        if (Storage::disk('public')->exists($folder)) {
-            Storage::disk('public')->deleteDirectory($folder);
-        }
+        ContentDocument::delete($content->slug);
 
         $content->delete();
 

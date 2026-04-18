@@ -14,6 +14,11 @@ class HomeView extends Component
     protected $paginationTheme = 'tailwind';
 
     public $search = '';
+
+    public function updatingSearch(): void
+    {
+        $this->resetPage();
+    }
     
     public function render(){
 
@@ -26,7 +31,7 @@ class HomeView extends Component
 
             'topPosts' => Content::where('status', 'published')
                         ->orderBy('views', 'desc')
-                        ->take(6)
+                        ->take(4)
                         ->get(),
         ])->layout('layouts.guestLayoutLivewire', [
             'title'    => 'OwnBlog',
