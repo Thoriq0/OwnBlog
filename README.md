@@ -1,13 +1,18 @@
 # 📰 OwnBlog
 
-**OwnBlog** adalah platform blog pribadi buatan sendiri, dibuat menggunakan **Laravel 12 + Livewire 3**, dan dikombinasikan dengan **TailwindCSS**, **Vite**, serta beberapa package tambahan untuk memperkaya fitur seperti upload gambar, dan text editor.
+**OwnBlog** adalah platform blog pribadi yang dibangun dengan **Laravel 12 + Livewire 3**.  
+Project ini berfokus pada pengalaman menulis yang sederhana: konten utama disimpan dalam format **Markdown (`.md`)**, banner disimpan terpisah di storage, dan tampilan guest/admin dirancang untuk workflow baca-tulis yang nyaman.
 
 ---
 
 ## 🚀 Deskripsi Singkat
 
-OwnBlog dibuat sebagai project pribadi yang berfungsi sebagai **portfolio sekaligus playground** untuk eksplorasi Laravel dan Livewire.  
-Tujuan utamanya adalah membangun sistem blog modern dengan fokus pada performa, dan UX.
+OwnBlog dibuat sebagai project pribadi yang berfungsi sebagai **portfolio sekaligus playground** untuk eksplorasi Laravel, Livewire, dan alur CMS ringan berbasis file.
+
+Tujuan utamanya:
+- membangun blog modern dengan workflow admin yang ringkas
+- menyimpan isi artikel sebagai file Markdown agar lebih mudah dirawat
+- menjaga UI guest/admin tetap nyaman dipakai untuk membaca dan menulis
 
 ---
 
@@ -18,7 +23,8 @@ Tujuan utamanya adalah membangun sistem blog modern dengan fokus pada performa, 
 |----------|--------|
 | `laravel/framework` | Core framework |
 | `livewire/livewire` | Komponen interaktif tanpa JavaScript manual |
-| `intervention/image` | Manipulasi & resize gambar |
+| `intervention/image` | Kompresi dan manipulasi banner |
+| `mews/purifier` | Sanitasi konten HTML/Markdown |
 
 
 ### 🎨 Frontend (NPM)
@@ -27,18 +33,25 @@ Tujuan utamanya adalah membangun sistem blog modern dengan fokus pada performa, 
 | `tailwindcss` | CSS framework utility-first |
 | `@tailwindcss/typography` | Styling untuk konten artikel |
 | `flowbite` | Komponen UI tambahan berbasis Tailwind |
-| `quill` | Rich text editor untuk input konten |
+| `alpinejs` | Interaksi ringan di sisi client |
+| `marked` | Render Markdown ke HTML untuk preview |
+| `dompurify` | Sanitasi hasil render preview Markdown |
 
 ---
 
 ## 🧩 Fitur yang Sudah Ada
 
 ✅ **Autentikasi dasar** (login/logout)  
-✅ **CRUD konten blog** dengan Livewire  
-✅ **Upload & resize gambar otomatis(Banner)**  
-✅ **Editor teks rich (Quill)**  
-✅ **Pagination Livewire**  
-✅ **Responsive UI dengan Tailwind + Flowbite**  
+✅ **CRUD konten blog** dengan admin panel  
+✅ **Editor Markdown** dengan preview real-time  
+✅ **Toolbar Markdown**: heading, bold, italic, quote, list, table, code, link  
+✅ **Konten disimpan sebagai file `.md`** di storage, bukan isi utama di database  
+✅ **Upload & kompres banner otomatis**  
+✅ **Guest search + pagination**  
+✅ **Top posts berdasarkan views**  
+✅ **Dark / light mode** untuk guest dan admin  
+✅ **Seeder demo** untuk admin dan konten awal  
+✅ **Responsive UI** dengan Tailwind + Flowbite  
 
 ---
 
@@ -67,19 +80,32 @@ php artisan key:generate
 ```
 **Lalu sesuaikan konfigurasi database di file .env:**
 ```bash
-DB_CONNECTION=mysql/pgsql
+DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=simpleblog
+DB_DATABASE=ownblog
 DB_USERNAME=root
-DB_PASSWORD=
+DB_PASSWORD=your_password
 ```
 
-### 4️⃣ Migration & Seeder
+### 4️⃣ Storage Link
+Project ini menggunakan public storage untuk banner, jadi jalankan:
+```bash
+php artisan storage:link
+```
+
+### 5️⃣ Migration & Seeder
 ```bash
 php artisan migrate --seed
 ```
-Seeder akan otomatis membuat data user, yang bisa di gunakan untuk user login nanti
+
+Seeder akan otomatis membuat:
+- 1 akun admin demo
+- 20 konten dummy
+- file Markdown kosong untuk setiap konten
+- banner dummy publik untuk kebutuhan tampilan awal
+
+Credential admin demo:
 ```bash
 'name' => 'Test User',
 'email' => 'admin@admin.com',
@@ -87,24 +113,64 @@ Seeder akan otomatis membuat data user, yang bisa di gunakan untuk user login na
 'role' => 'admin',
 ```
 
-### 5️⃣ Running Project
-**Backend:**
+### 6️⃣ Running Project
+Cara paling praktis:
+```bash
+composer run dev
+```
+
+Atau jalankan manual:
 ```bash
 php artisan serve
-```
-**Frontend:**
-```bash
 npm run dev
 ```
-Project akan running di http://127.0.0.1:8000 . bukalah url tersebut di browser
-Untuk menambahkan konten, masuk kedalam publihser/admin form dengan http://127.0.0.1:8000/login
+
+Project akan berjalan di `http://127.0.0.1:8000`
+
+Route penting:
+- guest home: `http://127.0.0.1:8000/`
+- login admin: `http://127.0.0.1:8000/login`
+- dashboard admin: `http://127.0.0.1:8000/dashboard`
+
+---
+
+## 🗂️ Struktur Penyimpanan Konten
+
+Artikel disimpan dalam dua bagian:
+
+### Database
+Database menyimpan metadata seperti:
+- title
+- slug
+- category
+- tags
+- status
+- views
+- `content_path`
+
+### File Storage
+- isi artikel Markdown disimpan di:
+  `storage/app/private/contents/{slug}/content.md`
+- banner disimpan di:
+  `storage/app/public/contents/{slug}/banner.{ext}`
+
+Pendekatan ini bikin isi artikel lebih gampang dipindah, di-backup, dan di-maintain tanpa menjejalkan body content penuh ke database.
+
+---
+
+## 🧪 Testing
+
+Untuk menjalankan test:
+```bash
+php artisan test
+```
 
 **🌟 Coming Soon**
 - 🚧 Settings user
 - 🚧 Sign up Form
-- 🚧 Optimasi Tag
+- 🚧 Optimasi tag
 - 🚧 Tag & kategori dinamis
-- 🚧 Compress gambar input konten
+- 🚧 Manajemen media yang lebih rapi
 - 🚧 Easy installer
 
 
@@ -127,4 +193,3 @@ Untuk menambahkan konten, masuk kedalam publihser/admin form dengan http://127.0
 
 ### 📝 Content Form
 ![Content Form](./preview/contentForm.png)
-
