@@ -51,6 +51,7 @@ class ContentSeeder extends Seeder
         foreach ($contents as $index => $item) {
             $slug = Str::slug($item['title']);
             $contentPath = ContentDocument::write($slug, '');
+            $excerpt = "Catatan singkat tentang {$item['title']} untuk demo tampilan listing guest dan admin.";
 
             Storage::disk('public')->makeDirectory(ContentDocument::directory($slug));
             $this->storeBannerIfMissing($slug, $bannerUrls[$index % count($bannerUrls)]);
@@ -66,6 +67,8 @@ class ContentSeeder extends Seeder
                     'views' => $item['views'],
                     'contents' => '',
                     'content_path' => $contentPath,
+                    'excerpt' => $excerpt,
+                    'banner_path' => Content::resolveBannerPath($slug, 'banner.jpg'),
                     'created_at' => now()->subDays(30 - $index),
                     'updated_at' => now()->subDays(max(0, 20 - $index)),
                 ]

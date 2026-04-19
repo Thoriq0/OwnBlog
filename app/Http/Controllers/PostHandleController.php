@@ -51,12 +51,14 @@ class PostHandleController extends Controller
             'banner.max'          => 'Bro, file lo kegedean! Server gue ngos-ngosan 🥵 (max 2MB)',
         ]);
 
-        $folder = 'contents/' . $request->slug;
-        Storage::disk('public')->makeDirectory($folder);
-
         $contentPath = ContentDocument::write($request->slug, $request->content);
+        $excerpt = Content::buildExcerpt($request->content);
+        $bannerPath = null;
 
         if ($request->hasFile('banner')) {
+            $folder = 'contents/' . $request->slug;
+            Storage::disk('public')->makeDirectory($folder);
+
             $file     = $request->file('banner');
             $filename = 'banner.' . $file->getClientOriginalExtension();
             $filePath = $folder . '/' . $filename;
@@ -69,6 +71,7 @@ class PostHandleController extends Controller
                 : $image->toJpeg(70);
 
             Storage::disk('public')->put($filePath, (string) $compressed);
+            $bannerPath = $filePath;
         }
 
 
@@ -82,6 +85,8 @@ class PostHandleController extends Controller
             'views'    => 0,
             'contents' => '',
             'content_path' => $contentPath,
+            'excerpt' => $excerpt,
+            'banner_path' => $bannerPath,
         ]);
 
         $msg = $request->status === 'published'

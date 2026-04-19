@@ -79,8 +79,9 @@ class PutHandleController extends Controller
 
             ContentDocument::renamePublicDirectory($oldSlug, $request->slug);
             $newFolder = 'contents/' . $request->slug;
-            $contentPath = ContentDocument::rename($oldSlug, $request->slug);
+            ContentDocument::rename($oldSlug, $request->slug);
             $contentPath = ContentDocument::write($request->slug, $request->content);
+            $excerpt = Content::buildExcerpt($request->content);
 
             // upload banner baru (jika ada)
             if ($request->hasFile('banner')) {
@@ -101,6 +102,11 @@ class PutHandleController extends Controller
                 Storage::disk('public')->put($filePath, (string) $compressed);
             }
 
+            $bannerPath = Content::resolveBannerPath(
+                $request->slug,
+                $content->banner_path ? basename((string) $content->banner_path) : null
+            );
+
             $content->update([
                 'title'    => $request->title,
                 'slug'     => $request->slug,
@@ -109,6 +115,8 @@ class PutHandleController extends Controller
                 'status'   => $request->status,
                 'contents' => '',
                 'content_path' => $contentPath,
+                'excerpt' => $excerpt,
+                'banner_path' => $bannerPath,
             ]);
 
             $msg = $request->status === 'published'

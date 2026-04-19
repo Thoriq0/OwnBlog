@@ -31,6 +31,8 @@ class ContentFactory extends Factory
             'status' => fake()->randomElement($statuses),
             'author' => "Thoriq",
             'contents' => fake()->paragraphs(rand(3, 8), true),
+            'excerpt' => fake()->paragraph(),
+            'banner_path' => null,
             'views' => fake()->randomNumber(),
             'created_at' => now(),
             'updated_at' => now(),
