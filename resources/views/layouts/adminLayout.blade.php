@@ -11,6 +11,7 @@
       <style>
 
       </style>
+      @livewireStyles
 
       <!-- Fonts -->
       <link rel="preconnect" href="https://fonts.bunny.net">
@@ -47,6 +48,7 @@
 
    </div>
    @stack('scripts')
+   @livewireScripts
 
    <script>
       // FlowBite

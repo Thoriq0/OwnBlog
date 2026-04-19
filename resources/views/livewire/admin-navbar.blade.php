@@ -14,11 +14,10 @@
                             </path>
                         </svg>
                     </button>
-                    <a href="/dashboard" class="flex ms-2 md:me-24" wire:navigate>
-                        <img src="{{ asset('images/ownblog.png') }}" class="h-8 me-3" alt="ownblog logo" />
+                    <a href="/dashboard" class="flex ms-2 md:me-24">
+                        <img src="{{ $siteSettings->logo_url }}" class="h-8 w-8 rounded-lg object-cover me-3" alt="{{ $siteSettings->site_title }} logo" />
                         <span
-                            class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Own
-                            Blog</span>
+                            class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">{{ $siteSettings->site_title }}</span>
                     </a>
                 </div>
                 <div class="flex items-center">
@@ -43,9 +42,16 @@
                                 class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                                 aria-expanded="false" data-dropdown-toggle="dropdown-user">
                                 <span class="sr-only">Open user menu</span>
-                                <img class="w-8 h-8 rounded-full"
-                                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                                    alt="user photo">
+                                @if (Auth::user()->avatar_url)
+                                    <img class="w-8 h-8 rounded-full object-cover"
+                                        src="{{ Auth::user()->avatar_url }}"
+                                        alt="{{ Auth::user()->name }} avatar">
+                                @else
+                                    <span class="flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold"
+                                        style="background-color: color-mix(in srgb, var(--warm-accent-soft) 78%, var(--warm-surface)); color: var(--warm-accent-strong);">
+                                        {{ Auth::user()->initials }}
+                                    </span>
+                                @endif
                             </button>
                         </div>
                         <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm dark:bg-gray-700 dark:divide-gray-600"
@@ -64,12 +70,12 @@
                                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                         role="menuitem">Dashboard</a>
                                 </li>
-                                <li class="opacity-50 cursor-not-allowed">
-                                    <span
-                                        class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-400"
+                                <li>
+                                    <a href="/settings"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                         role="menuitem">
-                                        Settings (Coming soon)
-                                    </span>
+                                        Settings
+                                    </a>
                                 </li>
                                 <li id="signOut">
                                     <form action="/logout" method="POST" class="signOutForm">

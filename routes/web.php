@@ -14,6 +14,7 @@ use App\Http\Controllers\RouteHandle;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\Authentication;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminSettingsController;
 use App\Http\Controllers\PutHandleController;
 use App\Http\Controllers\PostHandleController;
 use App\Http\Controllers\GuestHandleController;
@@ -35,9 +36,11 @@ Route::middleware([Authentication::class . ':admin'])->group(function () {
     Route::get('/dashboard', AdminDashboard::class); // Dashboard
     Route::get('/your-text', AdminTextList::class)->name('your-text'); // Your Text / Own text
     Route::get('/new-text' , AdminNewText::class); // New Text / Write Text
-    Route::get('/settings' , AdminSettings::class); // Settings -> Coming Soon
+    Route::get('/settings' , AdminSettings::class)->name('settings'); // Settings
 
     Route::get('/{slug}/edited', AdminEdit::class)->name('post.edited'); // Show Edit Content
+    Route::post('/settings/account', [AdminSettingsController::class, 'updateAccount'])->name('settings.account.update');
+    Route::post('/settings/base', [AdminSettingsController::class, 'updateBase'])->name('settings.base.update');
     
     // Post Handle
     Route::post('/admin/new-text', [PostHandleController::class, 'newText'])->name('post.newText'); // Upload New content
