@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Login Page')
+@section('title', 'Login - ' . ($siteTitle ?? $siteSettings->site_title))
 
 @section('content')
 <div class="relative min-h-screen overflow-hidden bg-[color:var(--warm-bg)] text-[color:var(--warm-text)]">
@@ -16,8 +16,8 @@
         <div class="max-w-2xl">
           <div class="mb-6 inline-flex items-center gap-3 rounded-full border px-4 py-2 text-sm font-medium"
                style="border-color: var(--warm-border); background-color: color-mix(in srgb, var(--warm-surface) 82%, transparent); color: var(--warm-text-soft);">
-            <img src="{{ asset('images/ownblog.png') }}" class="h-8 w-8 rounded-lg" alt="OwnBlog Logo" />
-            <span>OwnBlog Admin Access</span>
+            <img src="{{ $siteSettings->logo_url }}" class="h-8 w-8 rounded-lg object-cover" alt="{{ $siteSettings->site_title }} Logo" />
+            <span>{{ $siteSettings->site_title }} Admin Access</span>
           </div>
 
           <h1 class="max-w-xl text-5xl font-extrabold leading-[1.05] tracking-tight" style="color: var(--warm-text);">
@@ -47,7 +47,7 @@
         <div class="rounded-[2rem] border p-6 shadow-2xl sm:p-8"
              style="border-color: var(--warm-border); background-color: color-mix(in srgb, var(--warm-surface) 94%, transparent); box-shadow: 0 30px 80px color-mix(in srgb, var(--warm-text) 10%, transparent);">
           <div class="mb-8 flex items-center gap-4">
-            <img src="{{ asset('images/ownblog.png') }}" class="h-12 w-12 rounded-xl" alt="OwnBlog Logo" />
+            <img src="{{ $siteSettings->logo_url }}" class="h-12 w-12 rounded-xl object-cover" alt="{{ $siteSettings->site_title }} Logo" />
             <div>
               <p class="text-sm font-semibold uppercase tracking-[0.22em]" style="color: var(--warm-text-muted);">Admin Login</p>
               <h2 class="mt-1 text-3xl font-extrabold" style="color: var(--warm-text);">Welcome back</h2>
@@ -67,7 +67,7 @@
             <div>
               <label for="email" class="mb-2 block text-sm font-semibold" style="color: var(--warm-text-soft);">Email admin</label>
               <input type="email" id="email" name="email" required value="{{ old('email') }}"
-                     placeholder="admin@admin.com"
+                     placeholder="admin@example.com"
                      class="block w-full rounded-2xl border px-4 py-3 text-sm outline-none transition"
                      style="border-color: var(--warm-border); background-color: var(--warm-surface-soft); color: var(--warm-text);" />
             </div>
@@ -99,9 +99,15 @@
 
           <div class="mt-6 rounded-2xl border px-4 py-4 text-sm"
                style="border-color: var(--warm-border); background-color: color-mix(in srgb, var(--warm-accent-soft) 45%, var(--warm-surface));">
-            <p class="font-semibold" style="color: var(--warm-text);">Demo access</p>
-            <p class="mt-1" style="color: var(--warm-text-soft);">Email: <span class="font-medium" style="color: var(--warm-accent-strong);">admin@admin.com</span></p>
-            <p style="color: var(--warm-text-soft);">Password: <span class="font-medium" style="color: var(--warm-accent-strong);">password</span></p>
+            <p class="font-semibold" style="color: var(--warm-text);">Admin access</p>
+            <p class="mt-1" style="color: var(--warm-text-soft);">
+              Masuk pakai email admin aktif kamu.
+              @if ($adminUser)
+                Email saat ini:
+                <span class="font-medium" style="color: var(--warm-accent-strong);">{{ $adminUser->email }}</span>
+              @endif
+            </p>
+            <p style="color: var(--warm-text-soft);">Kalau email atau password diubah dari settings admin, halaman login otomatis ikut pakai data terbaru.</p>
           </div>
         </div>
       </section>

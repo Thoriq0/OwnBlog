@@ -77,21 +77,8 @@
 
     {{-- Banner --}}
     <div class="px-5 sm:px-7 md:px-5 lg:px-0 banner mt-4">
-        @php
-            $formats = ['jpg', 'jpeg', 'png', 'webp'];
-            $banner = null;
-            $storage = \Illuminate\Support\Facades\Storage::disk('public');
-
-            foreach ($formats as $ext) {
-                $path = "contents/{$post->slug}/banner.{$ext}";
-                if ($storage->exists($path)) {
-                    $banner = $storage->url($path);
-                    break;
-                }
-            }
-        @endphp
-        @if ($banner)
-            <img src="{{ $banner }}" alt="{{ $post->title }}" class="max-h-[540px] w-full object-cover">
+        @if ($post->has_banner)
+            <img src="{{ $post->banner_url }}" alt="{{ $post->title }}" class="max-h-[540px] w-full object-cover">
         @endif
         {{-- <img src="https://images.unsplash.com/photo-1760340769739-653d00200baf?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=870"
             alt="banner" class="w-full max-h-[540px]" /> --}}

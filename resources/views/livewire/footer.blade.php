@@ -5,9 +5,9 @@
 
             {{-- Brand --}}
             <div class="flex items-center gap-4">
-               <img src="{{ asset('images/ownblog.png') }}" alt="OwnBlog Logo" class="h-12 w-12 rounded-lg" />
+               <img src="{{ $siteSettings->logo_url }}" alt="{{ $siteSettings->site_title }} Logo" class="h-12 w-12 rounded-lg object-cover" />
                <div>
-                  <h2 class="text-2xl font-semibold dark:text-white">OwnBlog</h2>
+                  <h2 class="text-2xl font-semibold dark:text-white">{{ $siteSettings->site_title }}</h2>
                </div>
             </div>
 
@@ -34,9 +34,15 @@
                <div>
                   <h3 class="mb-3 font-semibold uppercase text-gray-900 dark:text-white">Connect</h3>
                   <ul class="space-y-2 text-gray-500 dark:text-gray-400">
-                     <li><a href="https://github.com/Thoriq0" target="_blank" class="hover:text-cyan-600 hover:underline dark:hover:text-cyan-300">GitHub</a></li>
-                     <li><a href="https://x.com/Thoriq527" target="_blank" class="hover:text-cyan-600 hover:underline dark:hover:text-cyan-300">Twitter/X</a></li>
-                     <li><a href="mailto:thoriq.ahmad1301@gmail.com" class="hover:text-cyan-600 hover:underline dark:hover:text-cyan-300">Email</a></li>
+                     @forelse ($siteSettings->connect_links as $link)
+                        <li>
+                           <a href="{{ $link['url'] }}" @if (! str_starts_with($link['url'], 'mailto:')) target="_blank" rel="noreferrer" @endif class="hover:text-cyan-600 hover:underline dark:hover:text-cyan-300">
+                              {{ $link['label'] }}
+                           </a>
+                        </li>
+                     @empty
+                        <li class="text-sm text-gray-400 dark:text-gray-500">Belum ada link connect yang diset.</li>
+                     @endforelse
                   </ul>
                </div>
             </div>
@@ -45,7 +51,7 @@
          <hr class="my-8 border-slate-200 dark:border-slate-800">
 
          <div class="flex flex-col sm:flex-row justify-between items-center text-gray-500 dark:text-gray-400 text-sm">
-            <p>© {{ date('Y') }} <span class="font-semibold text-gray-700 dark:text-gray-200">OwnBlog</span></p>
+            <p>© {{ date('Y') }} <span class="font-semibold text-gray-700 dark:text-gray-200">{{ $siteSettings->site_title }}</span></p>
             <p class="mt-2 sm:mt-0">
                Built with ☕</a>
             </p>

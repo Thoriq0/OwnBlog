@@ -2,7 +2,7 @@
 
     <section class="max-w-3xl mx-auto px-6 py-36 animate-fadeIn">
     <div class="text-center mb-10">
-        <h1 class="text-4xl font-bold mb-3">About <span class="text-blue-600">OwnBlog</span></h1>
+        <h1 class="text-4xl font-bold mb-3">About <span class="text-blue-600">{{ $siteSettings->site_title }}</span></h1>
         <p class="text-gray-600 text-lg">Tempat buat gw nulis, nyimpen ide, dan ngulik hal random yang gw suka.</p>
     </div>
 
@@ -27,10 +27,10 @@
             <li><strong>Writing</strong> – tulisan bebas, kadang cuma buat nyenengin diri sendiri 😄.</li>
         </ul>
 
-        <h2>Tujuan gw bikin OwnBlog</h2>
+        <h2>Tujuan gw bikin {{ $siteSettings->site_title }}</h2>
         <p>
             Gw pengen punya tempat yang gw kontrol penuh — gak tergantung platform lain.
-            Selain buat portfolio, OwnBlog juga jadi jurnal digital gw.  
+            Selain buat portfolio, {{ $siteSettings->site_title }} juga jadi jurnal digital gw.  
             Semua hal yang gw pelajari, gw catet di sini biar suatu hari bisa gw liat lagi.
         </p>
 

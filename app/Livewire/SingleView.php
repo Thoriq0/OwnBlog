@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Content;
+use App\Models\SiteSetting;
 use Livewire\Component;
 
 class SingleView extends Component
@@ -23,11 +24,13 @@ class SingleView extends Component
 
     public function render()
     {
+        $siteTitle = SiteSetting::current()->site_title;
+
         return view('livewire.single-view', [
             'title' => $this->title,
             'post' => $this->post
         ])->layout('layouts.guestLayoutLivewire', [
-            'title' => $this->title,
+            'title' => "{$this->title} - {$siteTitle}",
         ]);
     }
 }

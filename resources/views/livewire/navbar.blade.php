@@ -2,8 +2,8 @@
     class="fixed z-10 w-full border-b border-slate-200 bg-white/95 shadow-lg shadow-slate-900/5 backdrop-blur md:shadow-none dark:border-slate-800 dark:bg-slate-900/95">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" wire:navigate class="flex items-center space-x-3 rtl:space-x-reverse">
-            <img src="{{ asset('images/ownblog.png') }}" class="h-8" alt="Flowbite Logo" />
-            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">OwnBlog</span>
+            <img src="{{ $siteSettings->logo_url }}" class="h-8 w-8 rounded-lg object-cover" alt="{{ $siteSettings->site_title }} logo" />
+            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">{{ $siteSettings->site_title }}</span>
         </a>
         <button data-collapse-toggle="navbar-solid-bg" type="button"
             class="inline-flex h-10 w-10 items-center justify-center rounded-lg p-2 text-sm text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-200 md:hidden dark:text-slate-400 dark:hover:bg-slate-800 dark:focus:ring-slate-700"

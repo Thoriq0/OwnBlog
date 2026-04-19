@@ -3,22 +3,25 @@
 namespace App\Livewire;
 
 use App\Models\Content;
+use App\Models\SiteSetting;
 use Livewire\Component;
-use Livewire\WithPagination;
-use Livewire\WithoutUrlPagination;
 
 class CategoryView extends Component
 {
-    use WithPagination, WithoutUrlPagination;
-    protected $paginationTheme = 'tailwind';
-
     public $search = '';
+    public int $perPage = 12;
+    protected int $perPageStep = 12;
 
     public $category;
 
     public function updatingSearch(): void
     {
-        $this->resetPage();
+        $this->perPage = $this->perPageStep;
+    }
+
+    public function loadMore(): void
+    {
+        $this->perPage += $this->perPageStep;
     }
 
     public function mount($category){
@@ -28,16 +31,34 @@ class CategoryView extends Component
 
     public function render()
     {
-        $query = Content::where('category', $this->category)
+        $siteTitle = SiteSetting::current()->site_title;
+
+        $query = Content::query()
+            ->select([
+                'id',
+                'title',
+                'slug',
+                'category',
+                'author',
+                'created_at',
+                'excerpt',
+                'banner_path',
+            ])
+            ->where('status', 'published')
+            ->where('category', $this->category)
             ->when($this->search, function ($q) {
                 $q->where('title', 'like', "%{$this->search}%");
-            });
+            })
+            ->latest();
+
+        $contents = (clone $query)->take($this->perPage)->get();
 
         return view('livewire.category-view', [
             'category' => $this->category,
-            'contents' => $query->paginate(12),
+            'contents' => $contents,
+            'hasMoreContents' => (clone $query)->count() > $contents->count(),
         ])->layout('layouts.guestLayoutLivewire', [
-            'title'    => 'Category - '.$this->category,
+            'title'    => 'Category - '.$this->category.' - '.$siteTitle,
         ]);
     }
 }
