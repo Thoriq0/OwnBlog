@@ -1,195 +1,299 @@
-# 📰 OwnBlog
+# OwnBlog
 
-**OwnBlog** adalah platform blog pribadi yang dibangun dengan **Laravel 12 + Livewire 3**.  
-Project ini berfokus pada pengalaman menulis yang sederhana: konten utama disimpan dalam format **Markdown (`.md`)**, banner disimpan terpisah di storage, dan tampilan guest/admin dirancang untuk workflow baca-tulis yang nyaman.
+**OwnBlog** adalah platform blog pribadi berbasis **Laravel 12 + Livewire 3** dengan pendekatan CMS ringan.  
+Konten utama artikel disimpan sebagai file **Markdown (`.md`)**, sementara database dipakai untuk metadata seperti judul, slug, kategori, status, excerpt, views, dan lokasi banner.
 
----
-
-## 🚀 Deskripsi Singkat
-
-OwnBlog dibuat sebagai project pribadi yang berfungsi sebagai **portfolio sekaligus playground** untuk eksplorasi Laravel, Livewire, dan alur CMS ringan berbasis file.
-
-Tujuan utamanya:
-- membangun blog modern dengan workflow admin yang ringkas
-- menyimpan isi artikel sebagai file Markdown agar lebih mudah dirawat
-- menjaga UI guest/admin tetap nyaman dipakai untuk membaca dan menulis
+Project ini dibangun untuk workflow yang simple:
+- admin bisa nulis dan edit artikel dengan preview Markdown
+- guest bisa baca konten dengan tampilan yang nyaman
+- branding blog bisa diatur dari panel admin tanpa ubah kode manual
 
 ---
 
-## ⚙️ Tech Stack & Dependencies
+## Ringkasan Fitur
 
-### 🧱 Backend (Composer)
+Fitur yang sudah ada saat ini:
+
+- login admin
+- CRUD konten blog
+- editor Markdown dengan preview real-time
+- toolbar Markdown: heading, bold, italic, quote, list, table, code, dan link
+- konten artikel disimpan sebagai file `.md` di storage
+- upload dan kompres banner
+- excerpt dan path banner disimpan di database untuk listing yang lebih ringan
+- guest search
+- guest `load more` + skeleton loading
+- lazy loading image untuk kartu artikel
+- top posts berdasarkan views
+- dark / light mode untuk guest dan admin
+- admin settings untuk account dan base settings
+- brand settings untuk nama blog, logo, dan 3 link footer connect
+- seeder demo untuk akun admin dan konten awal
+
+---
+
+## Tech Stack
+
+### Backend
+
 | Package | Fungsi |
-|----------|--------|
+| --- | --- |
 | `laravel/framework` | Core framework |
-| `livewire/livewire` | Komponen interaktif tanpa JavaScript manual |
-| `intervention/image` | Kompresi dan manipulasi banner |
-| `mews/purifier` | Sanitasi konten HTML/Markdown |
+| `livewire/livewire` | Komponen interaktif untuk guest dan admin |
+| `intervention/image` | Resize / kompres gambar banner dan branding |
+| `mews/purifier` | Sanitasi HTML / Markdown |
 
+### Frontend
 
-### 🎨 Frontend (NPM)
 | Package | Fungsi |
-|----------|--------|
-| `tailwindcss` | CSS framework utility-first |
-| `@tailwindcss/typography` | Styling untuk konten artikel |
-| `flowbite` | Komponen UI tambahan berbasis Tailwind |
+| --- | --- |
+| `tailwindcss` | Utility-first CSS |
+| `@tailwindcss/typography` | Styling konten artikel |
+| `flowbite` | Komponen UI tambahan |
 | `alpinejs` | Interaksi ringan di sisi client |
 | `marked` | Render Markdown ke HTML untuk preview |
-| `dompurify` | Sanitasi hasil render preview Markdown |
+| `dompurify` | Sanitasi hasil render preview |
+| `vite` | Bundler frontend |
 
 ---
 
-## 🧩 Fitur yang Sudah Ada
+## Cara Install
 
-✅ **Autentikasi dasar** (login/logout)  
-✅ **CRUD konten blog** dengan admin panel  
-✅ **Editor Markdown** dengan preview real-time  
-✅ **Toolbar Markdown**: heading, bold, italic, quote, list, table, code, link  
-✅ **Konten disimpan sebagai file `.md`** di storage, bukan isi utama di database  
-✅ **Upload & kompres banner otomatis**  
-✅ **Guest search + pagination**  
-✅ **Top posts berdasarkan views**  
-✅ **Dark / light mode** untuk guest dan admin  
-✅ **Seeder demo** untuk admin dan konten awal  
-✅ **Responsive UI** dengan Tailwind + Flowbite  
+### 1. Clone repository
 
----
-
-## 🧠 Cara Install Project
-
-### 1️⃣ Clone Repository
 ```bash
 git clone https://github.com/Thoriq0/OwnBlog.git
 cd OwnBlog
 ```
 
-### 2️⃣ Install Dependencies
-**Backend:**
+### 2. Install dependency
+
 ```bash
 composer install
-```
-**Frontend:**
-```bash
 npm install
 ```
 
-### 3️⃣ Setup Environment
+### 3. Siapkan environment
+
 ```bash
 cp .env.example .env
 php artisan key:generate
 ```
-**Lalu sesuaikan konfigurasi database di file .env:**
-```bash
+
+Default contoh database di project ini:
+
+```env
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=ownblog
 DB_USERNAME=root
-DB_PASSWORD=your_password
+DB_PASSWORD=
 ```
 
-### 4️⃣ Storage Link
-Project ini menggunakan public storage untuk banner, jadi jalankan:
+Kalau nama database mau dibedakan, tinggal sesuaikan di `.env`.
+
+### 4. Buat storage link
+
 ```bash
 php artisan storage:link
 ```
 
-### 5️⃣ Migration & Seeder
+### 5. Jalankan migration dan seeder
+
 ```bash
 php artisan migrate --seed
 ```
 
-Seeder akan otomatis membuat:
-- 1 akun admin demo
-- 20 konten dummy
-- file Markdown kosong untuk setiap konten
-- banner dummy publik untuk kebutuhan tampilan awal
+Seeder akan membuat:
+- 1 akun admin
+- 20 konten demo
+- file Markdown untuk setiap konten
+- excerpt demo
+- banner demo untuk kebutuhan tampilan guest
 
-Credential admin demo:
-```bash
-'name' => 'Test User',
-'email' => 'admin@admin.com',
-'password' => 'password',
-'role' => 'admin',
+Credential admin default:
+
+```text
+Email    : admin@admin.com
+Password : password
 ```
 
-### 6️⃣ Running Project
+### 6. Jalankan project
+
 Cara paling praktis:
+
 ```bash
 composer run dev
 ```
 
-Atau jalankan manual:
+Command ini akan menjalankan:
+- `php artisan serve`
+- `php artisan queue:listen`
+- `php artisan pail`
+- `npm run dev`
+
+Kalau mau manual:
+
 ```bash
 php artisan serve
 npm run dev
 ```
 
-Project akan berjalan di `http://127.0.0.1:8000`
+App akan jalan di:
 
-Route penting:
-- guest home: `http://127.0.0.1:8000/`
-- login admin: `http://127.0.0.1:8000/login`
-- dashboard admin: `http://127.0.0.1:8000/dashboard`
+```text
+http://127.0.0.1:8000
+```
 
 ---
 
-## 🗂️ Struktur Penyimpanan Konten
+## Route Penting
 
-Artikel disimpan dalam dua bagian:
+- guest home: `GET /`
+- list posts: `GET /posts`
+- about page: `GET /about`
+- detail post: `GET /post/read-{slug}`
+- category page: `GET /{category}/post`
+- login admin: `GET /login`
+- dashboard admin: `GET /dashboard`
+- content list admin: `GET /your-text`
+- new content admin: `GET /new-text`
+- settings admin: `GET /settings`
+
+---
+
+## Struktur Penyimpanan Konten
 
 ### Database
+
 Database menyimpan metadata seperti:
-- title
-- slug
-- category
-- tags
-- status
-- views
+
+- `title`
+- `slug`
+- `category`
+- `tags`
+- `status`
+- `views`
 - `content_path`
+- `excerpt`
+- `banner_path`
 
-### File Storage
-- isi artikel Markdown disimpan di:
-  `storage/app/private/contents/{slug}/content.md`
-- banner disimpan di:
-  `storage/app/public/contents/{slug}/banner.{ext}`
+### Storage
 
-Pendekatan ini bikin isi artikel lebih gampang dipindah, di-backup, dan di-maintain tanpa menjejalkan body content penuh ke database.
+Markdown artikel disimpan di:
+
+```text
+storage/app/contents/{slug}/content.md
+```
+
+Banner, avatar, dan aset branding publik disimpan di:
+
+```text
+storage/app/public/...
+```
+
+Contoh banner artikel:
+
+```text
+storage/app/public/contents/{slug}/banner.{ext}
+```
+
+Pendekatan ini bikin body artikel tetap fleksibel karena isi utama tidak ditaruh langsung di kolom database.
 
 ---
 
-## 🧪 Testing
+## Branding dan Settings
 
-Untuk menjalankan test:
+Panel admin sekarang punya halaman `Settings` dengan dua tab:
+
+### Account Settings
+
+- ganti avatar admin
+- ganti nama user
+- ganti email login
+- ganti password
+
+### Base Settings
+
+- ganti site title
+- ganti logo / icon blog
+- atur maksimal 3 link footer connect
+
+Perubahan base settings dipakai langsung ke:
+- navbar guest
+- footer guest
+- login page
+- branding navbar admin
+
+---
+
+## Performa Guest
+
+Beberapa optimasi yang sudah dipakai:
+
+- listing guest hanya mengambil field metadata yang dibutuhkan
+- excerpt disimpan di database supaya list page tidak perlu render full Markdown
+- banner path disimpan di database
+- image card memakai lazy loading
+- halaman guest pakai `load more` daripada pagination standar
+- skeleton loading untuk search dan load more
+
+Untuk skala awal sampai menengah, pendekatan ini sudah jauh lebih aman dibanding selalu memuat full content di listing.
+
+---
+
+## Testing
+
+Jalankan test dengan:
+
 ```bash
 php artisan test
 ```
 
-**🌟 Coming Soon**
-- 🚧 Settings user
-- 🚧 Sign up Form
-- 🚧 Optimasi tag
-- 🚧 Tag & kategori dinamis
-- 🚧 Manajemen media yang lebih rapi
-- 🚧 Easy installer
+Saat ini sudah ada test untuk:
+- basic app response
+- admin settings update
+- validasi settings dan redirect tab
 
-
-## **Preview**
 ---
 
-### 🏠 Home
+## Catatan Setup Tambahan
+
+- Pastikan ekstensi PHP dan dependency image processing aktif kalau mau upload banner / logo.
+- Karena session dan cache default memakai driver database, pastikan migration sudah dijalankan sebelum login.
+- Setelah mengubah file env atau config penting, aman untuk jalankan:
+
+```bash
+php artisan optimize:clear
+```
+
+---
+
+## Roadmap Kecil
+
+Yang masih bisa dilanjutkan:
+
+- tag dan kategori dinamis
+- media manager yang lebih rapi
+- installer setup yang lebih simpel
+- test coverage yang lebih luas untuk flow content dan guest page
+
+---
+
+## Preview
+
+### Home
 ![Home](./preview/home.png)
 
-### 📄 Page
+### Page
 ![Page](./preview/page.png)
 
----
-
-### 🧭 Admin Dashboard
+### Admin Dashboard
 ![Admin Dashboard](./preview/adminDashboard.png)
 
-### 🧾 Content List
+### Content List
 ![Content List](./preview/contentList.png)
 
-### 📝 Content Form
+### Content Form
 ![Content Form](./preview/contentForm.png)
