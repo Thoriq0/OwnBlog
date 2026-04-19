@@ -38,7 +38,7 @@ class AdminSettingsController extends Controller
             return redirect()
                 ->route('settings', ['tab' => 'account'])
                 ->withErrors($validator)
-                ->withInput()
+                ->withInput($this->safeOldInput($request, 'account'))
                 ->with('settings-error', 'Account settings belum lolos sensor. Ada field yang masih bandel tuh 👀');
         }
 
@@ -49,16 +49,18 @@ class AdminSettingsController extends Controller
             return redirect()
                 ->route('settings', ['tab' => 'account'])
                 ->withErrors(['current_password' => 'Password saat ini tidak cocok.'])
-                ->withInput()
+                ->withInput($this->safeOldInput($request, 'account'))
                 ->with('settings-error', 'Password lama lo ngadi-ngadi bro, nggak cocok sama yang di sistem 😵');
         }
 
         if ($request->hasFile('avatar')) {
+            $newAvatarPath = $request->file('avatar')->store('avatars', 'public');
+
             if ($user->avatar_path) {
                 Storage::disk('public')->delete($user->avatar_path);
             }
 
-            $user->avatar_path = $request->file('avatar')->store('avatars', 'public');
+            $user->avatar_path = $newAvatarPath;
         }
 
         $user->name = trim($validated['name']);
@@ -97,7 +99,7 @@ class AdminSettingsController extends Controller
             return redirect()
                 ->route('settings', ['tab' => 'base'])
                 ->withErrors($validator)
-                ->withInput()
+                ->withInput($this->safeOldInput($request, 'base'))
                 ->with('settings-error', 'Base settings belum tembus. Biasanya sih ada URL connect yang lagi acting suspicious 🤨');
         }
 
@@ -105,11 +107,13 @@ class AdminSettingsController extends Controller
         $siteSetting = SiteSetting::current();
 
         if ($request->hasFile('site_logo')) {
+            $newLogoPath = $request->file('site_logo')->store('site-branding', 'public');
+
             if ($siteSetting->site_logo_path) {
                 Storage::disk('public')->delete($siteSetting->site_logo_path);
             }
 
-            $siteSetting->site_logo_path = $request->file('site_logo')->store('site-branding', 'public');
+            $siteSetting->site_logo_path = $newLogoPath;
         }
 
         $siteSetting->fill([
@@ -218,5 +222,20 @@ class AdminSettingsController extends Controller
         $value = trim($value);
 
         return $value === '' ? null : $value;
+    }
+
+    protected function safeOldInput(Request $request, string $tab): array
+    {
+        $input = $request->except([
+            'avatar',
+            'site_logo',
+            'current_password',
+            'new_password',
+            'new_password_confirmation',
+        ]);
+
+        $input['settings_tab'] = $tab;
+
+        return $input;
     }
 }

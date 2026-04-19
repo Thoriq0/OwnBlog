@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Storage;
 
 class SiteSetting extends Model
 {
+    protected static ?self $resolvedCurrent = null;
+
     protected $fillable = [
         'site_title',
         'site_logo_path',
@@ -46,25 +48,29 @@ class SiteSetting extends Model
 
     public static function current(): self
     {
+        if (static::$resolvedCurrent instanceof self) {
+            return static::$resolvedCurrent;
+        }
+
         if (! Schema::hasTable('site_settings')) {
-            return static::fallback();
+            return static::$resolvedCurrent = static::fallback();
         }
 
         $setting = static::query()->find(1);
 
         if ($setting) {
-            return $setting;
+            return static::$resolvedCurrent = $setting;
         }
 
         $setting = new static(static::defaults());
         $setting->forceFill(['id' => 1])->save();
 
-        return $setting;
+        return static::$resolvedCurrent = $setting;
     }
 
     public static function flushCache(): void
     {
-        // Kept for compatibility with callers; site settings now resolve fresh each request.
+        static::$resolvedCurrent = null;
     }
 
     public function getLogoUrlAttribute(): string

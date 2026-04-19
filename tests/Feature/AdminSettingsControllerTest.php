@@ -69,4 +69,35 @@ class AdminSettingsControllerTest extends TestCase
             ->assertSessionHas('settings-error')
             ->assertSessionHasErrors(['site_title', 'connect_1_url']);
     }
+
+    public function test_account_settings_validation_does_not_flash_password_fields_back_to_session(): void
+    {
+        $admin = User::factory()->create([
+            'role' => 'admin',
+        ]);
+
+        $response = $this
+            ->actingAs($admin)
+            ->from(route('settings', ['tab' => 'account']))
+            ->post(route('settings.account.update'), [
+                'settings_tab' => 'account',
+                'name' => '',
+                'email' => 'admin@example.com',
+                'current_password' => 'secret-lama',
+                'new_password' => 'secret-baru-123',
+                'new_password_confirmation' => 'secret-baru-123',
+            ]);
+
+        $response
+            ->assertRedirect(route('settings', ['tab' => 'account']))
+            ->assertSessionHas('settings-error')
+            ->assertSessionHasErrors(['name']);
+
+        $oldInput = session()->getOldInput();
+
+        $this->assertArrayNotHasKey('current_password', $oldInput);
+        $this->assertArrayNotHasKey('new_password', $oldInput);
+        $this->assertArrayNotHasKey('new_password_confirmation', $oldInput);
+        $this->assertSame('account', $oldInput['settings_tab'] ?? null);
+    }
 }
